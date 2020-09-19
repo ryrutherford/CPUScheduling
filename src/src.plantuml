@@ -1,0 +1,127 @@
+@startuml
+
+title __CPU Scheduling Class Diagram__\n
+
+    class CPU {
+        - chart : ArrayList<String>
+        - cpuID : int
+        + CPU()
+        + calculateCPUUtilization()
+        + getChart()
+        + getCpuID()
+        + getRunningProcess()
+        + setRunningProcess()
+        + toString()
+    }
+
+    class CPUProcess {
+        - arrivalTime : int
+        - execTime : int
+        - hasStarted : boolean
+        - ioRequestTimes : PriorityQueue<Integer>
+        - ioTime : int
+        - processID : String
+        - qElapsed : int
+        - remainingTime : int
+        - responseTime : int
+        - totalExecTime : int
+        - turnaroundTime : int
+        - waiting : int
+        + CPUProcess()
+        + getArrivalTime()
+        + getExecTime()
+        + getIoRequestTimes()
+        + getIoTime()
+        + getProcessID()
+        + getRemainingTime()
+        + getResponseTime()
+        + getTotalExecTime()
+        + getTurnaroundTime()
+        + getWaiting()
+        + getqElapsed()
+        + hasStarted()
+        + setArrivalTime()
+        + setExecTime()
+        + setHasStarted()
+        + setIoTime()
+        + setRemainingTime()
+        + setResponseTime()
+        + setTurnaroundTime()
+        + setWaiting()
+        + setqElapsed()
+        + toString()
+        + updateStatistics()
+    }
+
+    class CPUSchedulerTester {
+        {static} + main()
+    }
+  
+
+    class InvalidInputException {
+        + InvalidInputException()
+    }
+  
+
+    interface Scheduler {
+        {abstract} + scheduleProcesses()
+    }
+
+    class SchedulerFCFS {
+        + SchedulerFCFS()
+        + runProcesses()
+    }
+
+    class SchedulerRR {
+        - quantum : int
+        + SchedulerRR()
+        + runProcesses()
+    }
+  
+
+    class SchedulerSJF {
+        + SchedulerSJF()
+        + runProcesses()
+    }
+  
+
+    class SchedulerSRTF {
+        + SchedulerSRTF()
+        + runProcesses()
+    }
+  
+
+    abstract class SchedulerStrategy {
+        # cpus : ArrayList<CPU>
+        # finishedProcesses : ArrayList<CPUProcess>
+        # ioQueue : Queue<CPUProcess>
+        # numOfCPUs : int
+        # readyQueue : Queue<CPUProcess>
+        # time : int
+        # unarrivedProcesses : Queue<CPUProcess>
+        - ioChart : ArrayList<String>
+        {abstract} + runProcesses()
+        + SchedulerStrategy()
+        + scheduleProcesses() <<Override>>
+        # addArrivedProcesses()
+        # processesAreRunning()
+        # runCPU()
+        - addProcess()
+        - extractProcessesFromFile()
+        - runIO()
+        - waitProcesses()
+        - calculateAvgWaitTime()
+        - printIOChart()
+    }
+
+
+  CPU o-- CPUProcess : runningProcess
+  SchedulerFCFS -up-|> SchedulerStrategy
+  SchedulerRR -up-|> SchedulerStrategy
+  SchedulerSJF -up-|> SchedulerStrategy
+  SchedulerSRTF -up-|> SchedulerStrategy
+  SchedulerStrategy o-- InvalidInputException
+  SchedulerStrategy .up.|> Scheduler
+  SchedulerStrategy o-- CPUProcess : ioProcess
+
+@enduml
