@@ -1,0 +1,1 @@
+Java program following the strategy pattern for the 4 main CPU Scheduling algorithms. Input must have an arrival time, execution time, and can have multiple I/O times. I/O times always last 2 units
